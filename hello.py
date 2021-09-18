@@ -127,20 +127,151 @@ def move(x,y,step,angle=0):
     ny = y - step*math.sin(angle)
     return nx,ny
 
-import math
 
-def quadratic(a,b,c): #解一元二次方程练习，还可以再优化
-    d=b**2-4*a*c
-    d=math.sqrt(d)
-    x1=(-b+d)/(2*a)
-    x2=(-b-d)/(2*a)
-    if d<0:
-        print("该方程无解。")
-    elif d==0:
-        print('方程有且仅有一个解x =',-b/(2*a))
+import math #破费
+def quadratic(a,b,c):
+    if not(isinstance(a,(float,int))and isinstance(b,(float,int))and isinstance(c,(float,int))):
+        raise TypeError('bad operand type')
+    d = b**2-4*a*c
+    if a == 0:
+        x1=-c/b
+        x2=-c/b
+        return x1,x2 
+    elif d >= 0:
+        x1 = (-b-math.sqrt(d))/(2*a)
+        x2 = (-b+math.sqrt(d))/(2*a)
+        return x1,x2
+    elif d < 0:
+        print('该方程无实数根')
+quadratic(3,4,2)#不需要加print，直接调用即可，否则会none
+
+import math
+def power(x,n):
+    s = 1
+    while n > 0:  #while循环，意思是n代表了s与x相乘的次数，加入n是四，s就要与x相乘四次，也就是x的四次方
+        n = n-1
+        s = s*x
+    return s
+
+def calc(numbers):  #求平方和
+    sum = 0
+    for n in numbers:
+        sum = sum + n*n
+    return sum
+
+calc([1,2,3,4]) #调用的时候必须用list或者tuple
+
+def calc(*numbers):#加*变成可变参数，在调用时就不用再用list或者tuple
+    sum = 0
+    for n in numbers:
+        sum = sum + n*n
+    return sum
+
+#如果已经有一个确定的list
+#比如nums=[1,2,3],可以直接套用calc(*nums)加*作为可变参数直接调用
+
+
+def person(name,age,**kw):
+    print('name:',name,'age:',age,'other:',kw)
+
+
+
+#在Python中定义函数,参数定义的顺序必须是
+# 必选参数，默认参数，可变参数，命名关键字参数和关键字参数
+# *args是可变参数，接受的是tuple，**kw是关键字参数，kw接受的是一个dict
+
+
+def mul(*y):#计算多个数的乘积
+    s = 1
+    for i in y:
+        s = s*i
+    return s
+
+def fact(n):#计算阶乘
+    if n==1:
+        return 1
     else:
-        print('方程有两个不相等的实数根分别是 ：',x1,x2)
-print(quadratic(1,2,1))
+        return n*fact(n-1)
+fact(5)
+
+def move(n,a,b,c):#汉诺塔挪盘子问题
+    if n==1:#如果只有一个盘子则直接移动到c就行了
+        print(a,'-->',c)
+    else:
+        move(n-1,a,c,b)#把上边n-1个盘子看成整体，以c为过度，全部挪到b
+        print(a,'-->',c)#把最大的那个先直接挪到c
+        move(n-1,b,a,c)#以a为过度，把放在b上的n-1个盘子挪到c上，完成
+move(5,'A','B','C')#只需要归化方向，具体的递归交给python
+
+L = []
+n = 1
+while n <= 99:
+    L.append(n)
+    n = n+2
+
+
+L = ['M','Z','D','F','G']
+L[0:3]#切片，取前三个元素
+
+L = list(range(100))#取100的前十个数
+L[:10]
+L[10:20]#取前11-20个数
+L[:10:2]#前十个数每两个取一个
+L[::5]#所有数每五个取一个
+
+def trim(s):
+    if s[:1] ==' ':#如果首位有空格则把空格去掉变成新的s
+        s = s[1:]
+        return trim(s)
+    if s[-1:] ==' ':#如果末尾有空格则把空格去掉变成新的s
+        s = s[:-1]
+        return trim(s)
+    return s    
+
+numbers = [12,37,5,42,8,3]#数字分类程序，理解while的用法
+even = []
+odd = []
+while len(numbers) > 0:#如果numbers的list内仍有数字就继续循环
+     number = numbers.pop()#将numbers里的数字一个一个剔除出来
+     if(number % 2 == 0):#如果是偶数则分进even
+         even.append(number)
+     else:
+         odd.append(number)#如果是奇数则分进odd
+
+
+#默认dict迭代的是key，如果要迭代value可以用for value in d.values()
+#如果要同时迭代key和value，用for k,v in d.items()
+
+#如何判断一个对象可迭代
+from collections.abc import Iterable
+isinstance('abc', Iterable) # str是否可迭代
+isinstance([1,2,3], Iterable) # list是否可迭代
+isinstance(123, Iterable) # 整数是否可迭代
+
+
+
+def findMinAndMax(L):
+    if len(L) == 0:
+        return(None,None)
+    else:
+        return(min(L),max(L))
+
+#找到list中的最大值和最小值并输出成tuple
+def findMinAndMax(L):
+    if len(L) == 0:
+        x = None
+        y = None
+    else:
+        x = min(L)
+        y = max(L)
+    return(x,y)
+
+
+
+
+ 
+
+
 
 
     
